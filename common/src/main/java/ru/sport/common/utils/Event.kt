@@ -1,4 +1,4 @@
-package ru.sport.common
+package ru.sport.common.utils
 
 import androidx.lifecycle.MutableLiveData
 
