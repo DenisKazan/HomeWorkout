@@ -1,51 +1,142 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+def devBuild = getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("development")
+def betaBuild = getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("beta")
+def rcBuild = getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("rc")
+def prodBuild = getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("prod")
 
 android {
-    compileSdkVersion 29
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    def getVersionCode = { ->
+        // |xx | x |xxxxx|
+        // |api|abi|version|
+        // api:     15 - "oldApi" < 19
+        //          21 - "newApi" >= 19
+        // abi:     0 - universal
+        //          1 - armeabi-v7a
+        // version: increments on each release
+        def code = project.hasProperty('versionCode') ? versionCode.toInteger() : 1
+        def vCode = 2_100_000 + code
+        println "VersionCode is set to $vCode"
+        return vCode
+    }
+
+    compileSdkVersion versions.compileSdkVersion
     buildToolsVersion "29.0.0"
 
     defaultConfig {
         applicationId "ru.sport.home"
-        minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode getVersionCode()
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        buildTypes {
-            debug {
-                debuggable true
-                minifyEnabled false
-                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            }
-            release {
-                debuggable false
-                minifyEnabled true
-                shrinkResources true
-                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            matchingFallbacks = ['release']
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            versionNameSuffix '-dev'
+            matchingFallbacks = ['debug', 'release']
+        }
+        innerTest {
+            initWith(buildTypes.debug)
+            ext.enableCrashlytics = true
+            ext.alwaysUpdateBuildId = true
+
+            minifyEnabled true
+            shrinkResources true
+            versionNameSuffix '-test'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            matchingFallbacks = ['release', 'debug']
         }
     }
 
+    flavorDimensions "releaseType"
+
+    productFlavors {
+        development {
+            dimension "releaseType"
+            resConfigs("xxhdpi")
+            applicationId = 'ru.sport.home.dev'
+        }
+        beta {
+            dimension "releaseType"
+            applicationId = 'ru.sport.home.beta'
+        }
+        rc {
+            dimension "releaseType"
+            versionNameSuffix = '-rc'
+        }
+        prod {
+            dimension "releaseType"
+        }
+    }
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        boolean isIgnored = true
+        if (names.contains("development") && variant.buildType.name == "debug") {
+            // для дева игнорим всё кроме developmentNewApiDebug
+            isIgnored = false
+        } else if (names.contains("beta") && variant.buildType.name == "innerTest") {
+            // для beta доступен только InnerTest и debug
+            isIgnored = false
+        } else if ((names.contains("prod") || names.contains("rc")) && variant.buildType.name == "release") {
+            // для прода доступен только release
+            isIgnored = false
+        }
+        setIgnore(isIgnored)
+    }
+
+    splits {
+        // Configures multiple APKs based on ABI.
+        abi {
+            enable(rcBuild || prodBuild)
+            reset()
+            include 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+            universalApk(rcBuild || prodBuild)
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
+
+ext.abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86_64': 3]
 
 dependencies {
     implementation project(':common')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    implementation "android.arch.lifecycle:viewmodel:1.1.1"
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation libraries.appcompat
+    implementation libraries.core
+    implementation libraries.constraint
+    implementation libraries.archExt
+    implementation libraries.archViewModel
+    implementation libraries.supportRecyclerView
+    implementation libraries.cardView
+    implementation libraries.dagger
+    kapt libraries.daggerCompiler
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

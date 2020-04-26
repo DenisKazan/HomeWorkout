@@ -1,9 +1,10 @@
-package ru.sport.home
+package ru.sport.home.screens
 
 import android.os.Bundle
 import ru.sport.common.BaseActivity
+import ru.sport.home.R
 
-class MainActivity : BaseActivity(R.layout.activity_main) {
+class MenuActivity : BaseActivity(R.layout.activity_menu) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
