@@ -1,0 +1,3 @@
+rootProject.name='HomeWorkout'
+include ':app'
+include ':common'
