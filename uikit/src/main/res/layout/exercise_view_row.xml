@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/spacing_smallest"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:layout_constraintTop_toTopOf="parent">
@@ -13,22 +14,29 @@
         android:layout_height="164dp"
         android:background="@drawable/push_ups">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"/>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/titleView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
-            android:text="Sample Text"
+            tools:text="Sample Text"
             android:textSize="@dimen/font_large"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/descriptionView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
-            android:text="Sample Description Text"
+            tools:text="Sample Description Text"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

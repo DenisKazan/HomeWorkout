@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ProgressButton">
+        <attr name="text" format="string"/>
+        <attr name="android:textColor" format="color"/>
+        <attr name="background" format="reference"/>
+        <attr name="android:enabled"/>
+        <attr name="android:paddingBottom" format="dimension" />
+        <attr name="dotsColor" format="color" />
+        <attr name="marginStart" format="dimension" />
+        <attr name="marginEnd" format="dimension" />
+    </declare-styleable>
+
+</resources>

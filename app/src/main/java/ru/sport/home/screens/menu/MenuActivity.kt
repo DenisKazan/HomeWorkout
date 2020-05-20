@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_menu.*
 import ru.sport.common.BaseActivity
 import ru.sport.common.adapter.DelegateAdapter
+import ru.sport.common.extension.safeObserve
 import ru.sport.common.utils.ComponentProvider
 import ru.sport.home.R
 import ru.sport.home.screens.menu.di.ExerciseTypeComponent
@@ -18,6 +19,7 @@ class MenuActivity : BaseActivity(R.layout.activity_menu),
 
     private val adapter = DelegateAdapter.Builder()
         .addDelegate(ExerciseView.ViewModel::class.java, ExerciseView.Delegate())
+        .addDelegate(CreatorItemModel::class.java, CreatorItemDelegate())
         .build()
 
     @Inject
@@ -27,6 +29,13 @@ class MenuActivity : BaseActivity(R.layout.activity_menu),
         super.onCreate(savedInstanceState)
         component.inject(this)
         initRecycler()
+        subscribeToViewModel()
+    }
+
+    private fun subscribeToViewModel() {
+        vm.exercises.safeObserve(this) { adapter.addItems(0, it) }
+        vm.onRemoveExercise.safeObserve(this) { adapter.removeItem(it) }
+        vm.addCreateNewExercise.safeObserve(this) { adapter.addItem(it) }
     }
 
     private fun initRecycler() {

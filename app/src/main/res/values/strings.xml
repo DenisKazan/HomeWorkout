@@ -2,4 +2,9 @@
     <string name="app_name">HomeWorkout</string>
     <string name="push_ups">Отжимания</string>
     <string name="abs">Пресс</string>
+    <string name="new_excersice">Новое упражнение</string>
+    <string name="ok">ok</string>
+    <string name="remove_error">Невозможно удалить</string>
+    <string name="remove_error_message">Невозможно удалить стандартное упржнение из списка.</string>
+    <string name="start">Начать</string>
 </resources>

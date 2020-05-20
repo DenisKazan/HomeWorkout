@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.exercise_view_row.view.*
 import ru.sport.common.adapter.DelegateAdapter
 
 class ExerciseView
-    @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : ConstraintLayout(context, attrs, defStyleAttr) {
+@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    ConstraintLayout(context, attrs, defStyleAttr) {
 
     var title: CharSequence?
         get() = titleView.text
@@ -35,14 +35,21 @@ class ExerciseView
         cardBackground.setBackgroundResource(iconRes)
     }
 
-    class ViewModel(@StringRes val title: Int,
-                    @StringRes val description: Int,
-                    @DrawableRes val iconRes: Int)
+    class ViewModel(
+        @StringRes val title: Int,
+        @StringRes val description: Int,
+        @DrawableRes val iconRes: Int,
+        val action: (ViewModel) -> Unit,
+        val removeAction: ((ViewModel) -> Unit)?
+    )
 
-    class Delegate: DelegateAdapter.Delegate<ViewModel, ViewHolder>() {
+    class Delegate : DelegateAdapter.Delegate<ViewModel, ViewHolder>() {
         override fun createViewHolder(parent: ViewGroup): ViewHolder {
             val view = ExerciseView(parent.context).apply {
-                layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                layoutParams = LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             }
             return ViewHolder(view)
         }
@@ -53,12 +60,18 @@ class ExerciseView
 
     }
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(model: ViewModel) {
-            val view = itemView as ExerciseView
-            view.title = getString(model.title)
-            view.description = getString(model.description)
-            view.setBackgroundRes(model.iconRes)
+            with(itemView as ExerciseView) {
+                title = getString(model.title)
+                description = getString(model.description)
+                setBackgroundRes(model.iconRes)
+                setOnClickListener { model.action.invoke(model) }
+                setOnLongClickListener {
+                    model.removeAction?.invoke(model)
+                    return@setOnLongClickListener true
+                }
+            }
         }
 
         private fun getString(@StringRes textRes: Int) = itemView.context.getString(textRes)

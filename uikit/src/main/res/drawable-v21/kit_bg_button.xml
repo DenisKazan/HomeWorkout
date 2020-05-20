@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/rainbow_primary" />
+            <corners android:radius="6dp" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/rainbow_primary_dark" />
+                    <corners android:radius="6dp" />
+                </shape>
+            </item>
+            <item>
+                <ripple android:color="#c1bcbc">
+                    <item android:id="@android:id/mask" android:drawable="@android:color/white" />
+                </ripple>
+            </item>
+        </layer-list>
+    </item>
+
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/rainbow_primary" />
+                    <corners android:radius="6dp" />
+                </shape>
+            </item>
+            <item>
+                <ripple android:color="#c1bcbc">
+                    <item android:id="@android:id/mask" android:drawable="@android:color/white" />
+                </ripple>
+            </item>
+        </layer-list>
+    </item>
+
+</selector>

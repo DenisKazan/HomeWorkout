@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- your app branding color for the app bar -->
+    <color name="colorPrimary">@color/rainbow_primary</color>
+    <!-- darker variant for the status bar and contextual app bars -->
+    <color name="colorPrimaryDark">@color/rainbow_primary_dark</color>
+    <!-- theme UI controls like checkboxes and text fields -->
+    <color name="colorAccent">@color/rainbow_primary</color>
+    <!-- change the normal state of unchecked checkbox, etc-->
+    <color name="colorControlNormal">@color/extra_4</color>
+    <!--overrides colorAccent on activated|checked UI controls-->
+
+    <color name="colorAccentLight">#D3F2DD</color>
+    <color name="rainbow_primary">#38bd4c</color>
+    <color name="rainbow_primary_dark">#09a042</color>
+    <color name="rainbow_extra">#ff4732</color>
+    <color name="rainbow_special">#ffc719</color>
+    <color name="extra_4">#47000000</color>
+    <color name="extra_5">#28000000</color>
+    <color name="special">#1e000000</color>
+    <color name="special_2">#0a000000</color>
+    <color name="action">#38BD4C</color>
+    <color name="secondary">#66000000</color>
+    <color name="focused">#22be54</color>
+    <color name="light">#ffffff</color>
+    <color name="primary_1">#de000000</color>
+    <color name="normal">#F5F5F5</color>
+
+    <color name="kit_button_text_enabled">#fff</color>
+    <color name="kit_button_text_disabled">#66ffffff</color>
+    <color name="kit_button_text_pressed">#fff</color>
+
+</resources>

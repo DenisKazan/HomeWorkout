@@ -5,6 +5,10 @@
     <dimen name="font_large">18sp</dimen>
     <dimen name="font_normal">15sp</dimen>
     <dimen name="font_small">12sp</dimen>
+    <dimen name="app_text_size_medium">14sp</dimen>
+    <dimen name="app_text_size_large">28sp</dimen>
+    <dimen name="app_text_size_small">12sp</dimen>
+
 
     <!-- typical spacing between two views -->
     <dimen name="spacing_huge">40dp</dimen>
