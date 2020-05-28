@@ -9,7 +9,7 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.exercise_view_row.view.*
-import ru.sport.common.adapter.DelegateAdapter
+import ru.delegate.adapter.DelegateAdapter
 
 class ExerciseView
 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :

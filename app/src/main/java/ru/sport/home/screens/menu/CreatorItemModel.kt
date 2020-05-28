@@ -2,10 +2,9 @@ package ru.sport.home.screens.menu
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
-import ru.sport.common.adapter.DelegateAdapter
+import ru.delegate.adapter.DelegateAdapter
 import ru.sport.home.R
 import ru.sport.uikit.ExerciseView
 

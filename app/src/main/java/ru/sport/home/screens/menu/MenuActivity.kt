@@ -3,8 +3,8 @@ package ru.sport.home.screens.menu
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_menu.*
+import ru.delegate.adapter.DelegateAdapter
 import ru.sport.common.BaseActivity
-import ru.sport.common.adapter.DelegateAdapter
 import ru.sport.common.extension.safeObserve
 import ru.sport.common.utils.ComponentProvider
 import ru.sport.home.R
